@@ -32,6 +32,10 @@ def go(args):
     # Note how we did not impute missing values.
     # We will do that in the inference pipeline, so we will be able to handle missing values also in production.
 
+    # drop rows in the dataset that are not in the proper geolocation. 
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
+
     # save the output artifact locally with index=False to not have an extra index column
     df.to_csv(args.output_artifact, index=False)
 
